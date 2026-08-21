@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Cpu, Radio } from 'lucide-react';
+import { Cpu } from 'lucide-react';
 import { soundEngine } from '@/utils/sound';
 import { Language, TRANSLATIONS } from '@/data/translations';
+import { Logo } from './Logo';
 
 interface HeaderProps {
   lang: Language;
@@ -33,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
           }}
           title={lang === 'en' ? 'Go to Home' : 'होम स्क्रीन पर जाएं'}
         >
-          <div className="brand-logo-badge">नि</div>
+          <Logo size={36} />
           <div className="brand-text">
             <div className="brand-title">
               <span className="brand-name-en">Nishchit</span>
@@ -47,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
 
         <div className="header-actions">
-          {/* Futuristic Language Toggle Capsule */}
+          {/* Monochrome Language Switcher */}
           <div className="lang-switcher-pill">
             <button
               className={`lang-btn ${lang === 'en' ? 'active' : ''}`}
@@ -69,13 +70,13 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          {/* Futuristic Edge Offline Badge */}
+          {/* Clean Offline Badge */}
           <div className="status-badge-offline">
             <span className="status-dot" />
             <span>{t.brand.offlineStatus}</span>
           </div>
 
-          {/* System Telemetry Mode */}
+          {/* System Telemetry View */}
           <button
             className={`btn-tech-mode ${isTechModalOpen ? 'active' : ''}`}
             onClick={() => {
@@ -84,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({
             }}
             title={lang === 'en' ? 'View Technical Architecture' : 'तकनीकी आर्किटेक्चर देखें'}
           >
-            <Cpu size={16} />
+            <Cpu size={14} />
             <span>{t.brand.systemView}</span>
           </button>
         </div>
