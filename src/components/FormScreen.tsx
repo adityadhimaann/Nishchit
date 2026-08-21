@@ -1,11 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Building2, CheckCircle2, AlertTriangle, ShieldCheck, ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import { Building2, CheckCircle2, AlertTriangle, ShieldCheck, ArrowLeft, ArrowRight } from 'lucide-react';
 import { AmbiguityOption, Scenario } from '@/data/scenarios';
 import { soundEngine } from '@/utils/sound';
+import { Language, TRANSLATIONS } from '@/data/translations';
 
 interface FormScreenProps {
+  lang: Language;
   scenario: Scenario;
   resolvedAmbiguity: boolean;
   selectedOption: string | null;
@@ -15,6 +17,7 @@ interface FormScreenProps {
 }
 
 export const FormScreen: React.FC<FormScreenProps> = ({
+  lang,
   scenario,
   resolvedAmbiguity,
   selectedOption,
@@ -22,9 +25,9 @@ export const FormScreen: React.FC<FormScreenProps> = ({
   onSubmit,
   onBack,
 }) => {
+  const t = TRANSLATIONS[lang];
   const isAmbiguous = Boolean(scenario.ambiguousItem && !resolvedAmbiguity);
   const totalFields = scenario.fields.length + (scenario.ambiguousItem ? 1 : 0);
-  const filledCount = scenario.fields.length + (resolvedAmbiguity ? 1 : 0);
 
   return (
     <div className="animate-fade-in form-view-container">
@@ -36,9 +39,9 @@ export const FormScreen: React.FC<FormScreenProps> = ({
           </div>
           <div>
             <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: 'var(--color-text-main)' }}>
-              बैंक खाता आवेदन
+              {t.form.title}
             </h2>
-            <div className="sub-english">Bank Account Application Form (Kisan Jan-Dhan Seva)</div>
+            <div className="sub-english">{t.form.subtitle}</div>
           </div>
         </div>
 
@@ -47,18 +50,18 @@ export const FormScreen: React.FC<FormScreenProps> = ({
             <>
               <span style={{ color: 'var(--color-success)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                 <CheckCircle2 size={16} />
-                <span>{scenario.fields.length} जानकारी भर गई</span>
+                <span>{scenario.fields.length} {t.form.fieldsFilled}</span>
               </span>
               <span>·</span>
               <span style={{ color: 'var(--color-warning)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                 <AlertTriangle size={16} />
-                <span>1 की पुष्टि बाकी</span>
+                <span>1 {t.form.reviewRemaining}</span>
               </span>
             </>
           ) : (
             <span style={{ color: 'var(--color-success)', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
               <CheckCircle2 size={18} />
-              <span>{totalFields} में से {totalFields} जानकारी पूरी (100% सत्यापित)</span>
+              <span>{totalFields} {t.form.allCompleted} {totalFields} {t.form.allCompletedEnd}</span>
             </span>
           )}
         </div>
@@ -67,15 +70,15 @@ export const FormScreen: React.FC<FormScreenProps> = ({
       {/* Verified Personal Details Section */}
       <div className="form-section-card">
         <div className="form-section-title">
-          <span>व्यक्तिगत विवरण (Personal Details)</span>
+          <span>{t.form.personalDetails}</span>
         </div>
 
         <div className="fields-two-column">
           {scenario.fields.map((field) => (
             <div key={field.id} className="form-field-group">
               <label className="field-label">
-                <span>{field.labelHindi}</span>
-                <span className="verification-tag">✓ सही जानकारी मिली</span>
+                <span>{lang === 'en' ? field.labelEn : field.labelHindi}</span>
+                <span className="verification-tag">{t.form.verifiedTag}</span>
               </label>
               <div className="field-value-box verified">
                 <span>{field.value}</span>
@@ -99,15 +102,15 @@ export const FormScreen: React.FC<FormScreenProps> = ({
                   <AlertTriangle size={32} />
                 </div>
                 <div>
-                  <h3 className="ambiguity-title-text">⚠ इस जानकारी की पुष्टि जरूरी है</h3>
-                  <div className="sub-english">Operator Verification Required</div>
+                  <h3 className="ambiguity-title-text">{t.form.ambiguityHeader}</h3>
+                  <div className="sub-english">{t.form.ambiguitySub}</div>
                 </div>
               </div>
 
               {/* Number Spotlight */}
               <div className="ambiguity-number-spotlight">
                 <div className="number-quote-context">
-                  ग्राहक ने कहा: <strong>&ldquo;{scenario.ambiguousItem.spokenSnippet}&rdquo;</strong>
+                  {t.form.citizenSaid} <strong>&ldquo;{scenario.ambiguousItem.spokenSnippet}&rdquo;</strong>
                 </div>
                 <div className="number-giant-badge">
                   {scenario.ambiguousItem.rawNumber}
@@ -116,9 +119,9 @@ export const FormScreen: React.FC<FormScreenProps> = ({
 
               {/* Question */}
               <div className="ambiguity-question-prompt">
-                <span>{scenario.ambiguousItem.promptQuestion}</span>
+                <span>{lang === 'en' ? scenario.ambiguousItem.promptQuestionEn : scenario.ambiguousItem.promptQuestionHindi}</span>
                 <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text-secondary)' }}>
-                  आपको बस सही विकल्प चुनना है
+                  {t.form.questionSub}
                 </span>
               </div>
 
@@ -133,8 +136,8 @@ export const FormScreen: React.FC<FormScreenProps> = ({
                       onResolveAmbiguity(opt);
                     }}
                   >
-                    <span className="option-label-hindi">{opt.labelHindi}</span>
-                    <span className="option-label-en">{opt.labelEn}</span>
+                    <span className="option-label-hindi">{lang === 'en' ? opt.labelEn : opt.labelHindi}</span>
+                    <span className="option-label-en">{lang === 'en' ? opt.labelHindi : opt.labelEn}</span>
                   </button>
                 ))}
               </div>
@@ -143,10 +146,10 @@ export const FormScreen: React.FC<FormScreenProps> = ({
               <div className="ambiguity-footer-reassurance">
                 <div className="reassurance-tag">
                   <ShieldCheck size={18} color="#B45309" />
-                  <span>Nishchit ने अनुमान नहीं लगाया।</span>
+                  <span>{t.form.reassuranceText}</span>
                 </div>
                 <div style={{ fontSize: 'var(--text-xs)', color: '#78350F' }}>
-                  The system could not safely determine the field and refused to hallucinate.
+                  {t.form.reassuranceSub}
                 </div>
               </div>
             </div>
@@ -164,13 +167,13 @@ export const FormScreen: React.FC<FormScreenProps> = ({
             >
               <div style={{ fontSize: '2.5rem', color: 'var(--color-success)', marginBottom: '0.25rem' }}>✓</div>
               <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: 'var(--color-success-text)', marginBottom: '0.25rem' }}>
-                जानकारी सुरक्षित रूप से जोड़ दी गई!
+                {t.form.resolvedSuccessTitle}
               </div>
               <div style={{ fontSize: 'var(--text-lg)', fontWeight: 700, color: 'var(--color-text-main)' }}>
                 {selectedOption}: <strong style={{ fontFamily: 'monospace' }}>1234</strong>
               </div>
               <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)', marginTop: '0.5rem' }}>
-                ✓ ऑपरेटर द्वारा सत्यापित • Verified by Operator without model hallucination
+                {t.form.resolvedSuccessSub}
               </div>
             </div>
           )}
@@ -187,7 +190,7 @@ export const FormScreen: React.FC<FormScreenProps> = ({
           }}
         >
           <ArrowLeft size={18} />
-          <span>आवाज फिर से सुनें (Re-record)</span>
+          <span>{t.form.reRecord}</span>
         </button>
 
         <button
@@ -201,7 +204,7 @@ export const FormScreen: React.FC<FormScreenProps> = ({
             }
           }}
         >
-          <span>{isAmbiguous ? 'पहले अस्पष्ट जानकारी चुनें ⚠' : 'आवेदन आगे बढ़ाएं ✓'}</span>
+          <span>{isAmbiguous ? t.form.resolveFirst : t.form.proceed}</span>
           <ArrowRight size={18} />
         </button>
       </div>

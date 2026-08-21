@@ -3,28 +3,32 @@
 import React from 'react';
 import { Shield, ArrowRight } from 'lucide-react';
 import { soundEngine } from '@/utils/sound';
+import { Language, TRANSLATIONS } from '@/data/translations';
 
 interface TrustBannerProps {
+  lang: Language;
   onOpenTechModal: () => void;
 }
 
-export const TrustBanner: React.FC<TrustBannerProps> = ({ onOpenTechModal }) => {
+export const TrustBanner: React.FC<TrustBannerProps> = ({ lang, onOpenTechModal }) => {
+  const t = TRANSLATIONS[lang];
+
   return (
     <div className="trust-banner-wrapper">
       <div className="trust-banner">
         <div className="trust-pipeline">
           <span className="trust-title">
             <Shield size={15} />
-            <span>Nishchit Safety Check:</span>
+            <span>{t.trustBanner.title}</span>
           </span>
-          <span className="trust-step">1. AI Proposal</span>
+          <span className="trust-step">{t.trustBanner.step1}</span>
           <ArrowRight size={12} className="trust-arrow" />
-          <span className="trust-step">2. Independent Critic</span>
+          <span className="trust-step">{t.trustBanner.step2}</span>
           <ArrowRight size={12} className="trust-arrow" />
-          <span className="trust-step">3. Schema Constraints</span>
+          <span className="trust-step">{t.trustBanner.step3}</span>
           <ArrowRight size={12} className="trust-arrow" />
           <span className="trust-step" style={{ background: '#EAF7EF', color: '#14532D' }}>
-            ✓ Safe Action / Operator Escalate
+            {t.trustBanner.step4}
           </span>
         </div>
 
@@ -35,7 +39,7 @@ export const TrustBanner: React.FC<TrustBannerProps> = ({ onOpenTechModal }) => 
             onOpenTechModal();
           }}
         >
-          सुरक्षा तंत्र समझें (How it works)
+          {t.trustBanner.howItWorks}
         </button>
       </div>
     </div>

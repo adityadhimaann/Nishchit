@@ -1,26 +1,30 @@
 'use client';
 
 import React, { useState } from 'react';
-import { CheckCircle2, Printer, PlusCircle, FileText, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Printer, PlusCircle, FileText } from 'lucide-react';
 import { Scenario } from '@/data/scenarios';
 import { ReceiptModal } from './ReceiptModal';
 import { soundEngine } from '@/utils/sound';
+import { Language, TRANSLATIONS } from '@/data/translations';
 
 interface CompletionScreenProps {
+  lang: Language;
   scenario: Scenario;
   resolvedField: string;
   onNewApplication: () => void;
 }
 
 export const CompletionScreen: React.FC<CompletionScreenProps> = ({
+  lang,
   scenario,
   resolvedField,
   onNewApplication,
 }) => {
+  const t = TRANSLATIONS[lang];
   const [showReceipt, setShowReceipt] = useState(true);
 
-  const nameVal = scenario.fields.find((f) => f.id === 'name')?.value || 'रमेश कुमार';
-  const villageVal = scenario.fields.find((f) => f.id === 'address')?.value || 'रामपुर';
+  const nameVal = scenario.fields.find((f) => f.id === 'name')?.value || 'Ramesh Kumar (रमेश कुमार)';
+  const villageVal = scenario.fields.find((f) => f.id === 'address')?.value || 'Rampur, UP';
   const incomeVal = scenario.fields.find((f) => f.id === 'income')?.value || '₹5,00,000';
 
   const totalFields = scenario.fields.length + (scenario.ambiguousItem ? 1 : 0);
@@ -33,21 +37,21 @@ export const CompletionScreen: React.FC<CompletionScreenProps> = ({
         <div className="completion-hero-row">
           <div>
             <div className="completion-badge-circle">✓</div>
-            <h2 className="completion-title hindi-lead">आवेदन तैयार है</h2>
+            <h2 className="completion-title hindi-lead">{t.completion.title}</h2>
             <div className="sub-english" style={{ fontSize: 'var(--text-base)', marginBottom: '1rem' }}>
-              Bank Account Application Ready for Final Processing
+              {t.completion.sub}
             </div>
 
             <div className="completion-stats-list">
               <div className="completion-stat-chip" style={{ background: '#EAF7EF', borderColor: '#A3D8B4', color: '#134B26' }}>
-                ✓ {totalFields} में से {totalFields} जानकारी पूरी
+                ✓ {totalFields} / {totalFields} {t.completion.allVerifiedTag}
               </div>
               <div className="completion-stat-chip">
-                🤖 {aiAutoFilled} AI द्वारा सुरक्षित रूप से भरी गई
+                🤖 {aiAutoFilled} {t.completion.aiFilledTag}
               </div>
               {operatorConfirmed > 0 && (
                 <div className="completion-stat-chip" style={{ background: '#FFF8E6', borderColor: '#FFD27D', color: '#7A3D00' }}>
-                  👤 {operatorConfirmed} ऑपरेटर द्वारा पुष्टि की गई
+                  👤 {operatorConfirmed} {t.completion.operatorConfirmedTag}
                 </div>
               )}
             </div>
@@ -71,7 +75,7 @@ export const CompletionScreen: React.FC<CompletionScreenProps> = ({
             }}
           >
             <FileText size={18} />
-            <span>{showReceipt ? 'पावती रसीद छिपाएं' : 'पावती रसीद देखें (View Receipt)'}</span>
+            <span>{showReceipt ? t.completion.hideReceipt : t.completion.viewReceipt}</span>
           </button>
 
           <button
@@ -82,7 +86,7 @@ export const CompletionScreen: React.FC<CompletionScreenProps> = ({
             }}
           >
             <Printer size={18} />
-            <span>रसीद प्रिंट करें (Print Slip)</span>
+            <span>{t.completion.printReceipt}</span>
           </button>
 
           <button
@@ -94,13 +98,14 @@ export const CompletionScreen: React.FC<CompletionScreenProps> = ({
             }}
           >
             <PlusCircle size={18} />
-            <span>नया आवेदन (New Application)</span>
+            <span>{t.completion.newApplication}</span>
           </button>
         </div>
 
         {/* Printable Customer Receipt Preview */}
         {showReceipt && (
           <ReceiptModal
+            lang={lang}
             name={nameVal}
             village={villageVal}
             income={incomeVal}

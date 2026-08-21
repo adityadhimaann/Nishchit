@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Mic, Square, ArrowLeft, Volume2, Sparkles, AlertCircle } from 'lucide-react';
+import { Mic, Square, ArrowLeft, Volume2 } from 'lucide-react';
 import { SCENARIOS, Scenario } from '@/data/scenarios';
 import { soundEngine } from '@/utils/sound';
+import { Language, TRANSLATIONS } from '@/data/translations';
 
 interface VoiceScreenProps {
+  lang: Language;
   scenario: Scenario;
   onSelectScenario: (scenarioId: string) => void;
   onRecordingComplete: () => void;
@@ -13,11 +15,13 @@ interface VoiceScreenProps {
 }
 
 export const VoiceScreen: React.FC<VoiceScreenProps> = ({
+  lang,
   scenario,
   onSelectScenario,
   onRecordingComplete,
   onBack,
 }) => {
+  const t = TRANSLATIONS[lang];
   const [isRecording, setIsRecording] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [streamedText, setStreamedText] = useState(scenario.speechTranscript);
@@ -25,12 +29,10 @@ export const VoiceScreen: React.FC<VoiceScreenProps> = ({
   const animRef = useRef<number | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Update preview when scenario changes
   useEffect(() => {
     setStreamedText(scenario.speechTranscript);
   }, [scenario]);
 
-  // Waveform rendering
   const startWaveform = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -155,7 +157,7 @@ export const VoiceScreen: React.FC<VoiceScreenProps> = ({
           }}
         >
           <ArrowLeft size={18} />
-          <span>वापस जाएं (Back)</span>
+          <span>{t.voice.back}</span>
         </button>
       </div>
 
@@ -164,19 +166,17 @@ export const VoiceScreen: React.FC<VoiceScreenProps> = ({
           {/* Main Voice Panel */}
           <div className="voice-active-panel">
             <div>
-              <h2 className="voice-heading hindi-lead">अब बोलिए</h2>
-              <p className="voice-subtext">
-                नाम, पता, जन्मतिथि या दूसरी जानकारी एक साथ बोल सकते हैं।
-              </p>
-              <div className="sub-english">Speak naturally in Hindi or Hinglish without pausing.</div>
+              <h2 className="voice-heading hindi-lead">{t.voice.heading}</h2>
+              <p className="voice-subtext">{t.voice.subheading}</p>
+              <div className="sub-english">Speak naturally in Hindi / Hinglish / English without pauses.</div>
             </div>
 
-            {/* Mic Giant Button */}
+            {/* Mic Button */}
             <div className="mic-interactive-wrapper">
               <button
                 className={`mic-giant-button ${isRecording ? 'recording' : ''}`}
                 onClick={isRecording ? stopRecording : startRecording}
-                title={isRecording ? 'रोकें' : 'बोलना शुरू करें'}
+                title={isRecording ? 'Stop' : 'Start'}
               >
                 {isRecording ? <Square size={44} /> : <Mic size={52} />}
               </button>
@@ -185,7 +185,7 @@ export const VoiceScreen: React.FC<VoiceScreenProps> = ({
 
             {/* Status & Timer */}
             <div className="voice-status-indicator">
-              <span>{isRecording ? '🎙 सुन रहे हैं...' : '🎙 बोलना शुरू करें'}</span>
+              <span>{isRecording ? t.voice.micListening : t.voice.micStart}</span>
               {isRecording && (
                 <span style={{ color: 'var(--color-danger)', fontFamily: 'monospace', fontSize: 'var(--text-2xl)' }}>
                   {formatTime(elapsed)}
@@ -201,7 +201,7 @@ export const VoiceScreen: React.FC<VoiceScreenProps> = ({
             {/* Live Transcript Box */}
             <div className="voice-live-transcript-card">
               <div className="transcript-label">
-                <span>बोली गई जानकारी (Spoken Transcript):</span>
+                <span>{t.voice.spokenTranscriptLabel}</span>
                 <button
                   onClick={() => soundEngine.speakHindi(scenario.speechTranscript)}
                   style={{
@@ -217,7 +217,7 @@ export const VoiceScreen: React.FC<VoiceScreenProps> = ({
                   }}
                 >
                   <Volume2 size={15} />
-                  <span>आवाज सुनें (Play Audio)</span>
+                  <span>{t.voice.playAudio}</span>
                 </button>
               </div>
               <div className="transcript-speech-bubble">
@@ -244,7 +244,7 @@ export const VoiceScreen: React.FC<VoiceScreenProps> = ({
                 }}
               >
                 <Square size={20} />
-                <span>रोकें और जानकारी निकालें (Stop &amp; Process)</span>
+                <span>{t.voice.micStop}</span>
               </button>
             )}
           </div>
@@ -252,8 +252,8 @@ export const VoiceScreen: React.FC<VoiceScreenProps> = ({
           {/* Hackathon Demo Scenarios Picker */}
           <div className="demo-scenarios-panel">
             <div className="demo-scenario-header">
-              <span>डेमो टेस्ट केस (Demo Test Scenarios for Judges):</span>
-              <span style={{ fontSize: '0.75rem', color: '#78350F' }}>5 Live Realities Tested</span>
+              <span>{t.voice.scenariosTitle}</span>
+              <span style={{ fontSize: '0.75rem', color: '#78350F' }}>{t.voice.fiveScenarios}</span>
             </div>
             <div className="scenarios-button-row">
               {Object.keys(SCENARIOS).map((key) => {
@@ -267,7 +267,7 @@ export const VoiceScreen: React.FC<VoiceScreenProps> = ({
                       onSelectScenario(key);
                     }}
                   >
-                    {s.nameHindi}
+                    {lang === 'en' ? s.nameEn : s.nameHindi}
                   </button>
                 );
               })}
@@ -283,18 +283,18 @@ export const VoiceScreen: React.FC<VoiceScreenProps> = ({
               alt="Rural Indian citizen interacting at desk"
             />
             <div className="context-villager-content">
-              <div className="context-villager-title">ग्राहक संवाद (Citizen Voice)</div>
+              <div className="context-villager-title">{t.voice.citizenContextTitle}</div>
               <div className="context-villager-sub">
-                &ldquo;ग्राहक को तकनीकी शब्दों या फॉर्म के खानों की चिंता नहीं करनी है।&rdquo;
+                &ldquo;{t.voice.citizenContextSub}&rdquo;
               </div>
             </div>
           </div>
 
           <div style={{ background: '#FFFDF9', border: '1.5px solid var(--color-border)', borderRadius: '14px', padding: '1rem', fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)' }}>
             <strong style={{ color: 'var(--color-text-main)', display: 'block', marginBottom: '0.25rem' }}>
-              ● नो-हैलुसिनेशन गारंटी
+              ● Zero AI Hallucination Policy
             </strong>
-            यदि ग्राहक अधूरा नंबर बोलेगा, तो निश्चित कभी भी मनगढ़ंत अनुमान नहीं लगाएगा।
+            When inputs are ambiguous, Nishchit stops and requests human operator confirmation instead of predicting.
           </div>
         </div>
       </div>

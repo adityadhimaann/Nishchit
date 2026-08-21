@@ -1,6 +1,7 @@
 export interface ScenarioField {
   id: string;
   labelHindi: string;
+  labelEn: string;
   value: string;
   status: 'verified' | 'requires_review';
   confidence: number;
@@ -18,12 +19,14 @@ export interface AmbiguityOption {
 export interface AmbiguousItem {
   id: string;
   labelHindi: string;
+  labelEn: string;
   rawNumber: string;
   spokenSnippet: string;
   status: 'requires_review';
   confidence: number;
   criticFailureReason: string;
-  promptQuestion: string;
+  promptQuestionHindi: string;
+  promptQuestionEn: string;
   options: AmbiguityOption[];
 }
 
@@ -55,8 +58,9 @@ export const SCENARIOS: Record<string, Scenario> = {
     fields: [
       {
         id: "name",
-        labelHindi: "नाम (Name)",
-        value: "रमेश कुमार",
+        labelHindi: "नाम",
+        labelEn: "Full Name",
+        value: "रमेश कुमार (Ramesh Kumar)",
         status: "verified",
         confidence: 0.994,
         source: "Extracted from 'मेरा नाम रमेश कुमार है'",
@@ -64,8 +68,9 @@ export const SCENARIOS: Record<string, Scenario> = {
       },
       {
         id: "dob",
-        labelHindi: "जन्म तिथि (Date of Birth)",
-        value: "12 मई 1978",
+        labelHindi: "जन्म तिथि",
+        labelEn: "Date of Birth",
+        value: "12 May 1978",
         status: "verified",
         confidence: 0.985,
         source: "Matched with rural citizen KYC registry",
@@ -73,8 +78,9 @@ export const SCENARIOS: Record<string, Scenario> = {
       },
       {
         id: "gender",
-        labelHindi: "लिंग (Gender)",
-        value: "पुरुष (Male)",
+        labelHindi: "लिंग",
+        labelEn: "Gender",
+        value: "Male (पुरुष)",
         status: "verified",
         confidence: 0.991,
         source: "Gram Panchayat Registry match",
@@ -82,8 +88,9 @@ export const SCENARIOS: Record<string, Scenario> = {
       },
       {
         id: "address",
-        labelHindi: "पता / गांव (Village / Address)",
-        value: "रामपुर, उत्तर प्रदेश",
+        labelHindi: "पता / गांव",
+        labelEn: "Village / Address",
+        value: "Rampur, Uttar Pradesh (रामपुर)",
         status: "verified",
         confidence: 0.982,
         source: "Extracted from 'गांव रामपुर है'",
@@ -91,7 +98,8 @@ export const SCENARIOS: Record<string, Scenario> = {
       },
       {
         id: "income",
-        labelHindi: "वार्षिक आय (Annual Income)",
+        labelHindi: "वार्षिक आय",
+        labelEn: "Annual Income",
         value: "₹5,00,000",
         status: "verified",
         confidence: 0.988,
@@ -100,8 +108,9 @@ export const SCENARIOS: Record<string, Scenario> = {
       },
       {
         id: "occupation",
-        labelHindi: "व्यवसाय (Occupation)",
-        value: "कृषि / किसान (Farmer)",
+        labelHindi: "व्यवसाय",
+        labelEn: "Occupation",
+        value: "Agriculture / Farmer (किसान)",
         status: "verified",
         confidence: 0.975,
         source: "Panchayat registry profile",
@@ -111,17 +120,19 @@ export const SCENARIOS: Record<string, Scenario> = {
     ambiguousItem: {
       id: "unresolved_number",
       labelHindi: "खाता / संदर्भ नंबर",
+      labelEn: "Account / Reference Number",
       rawNumber: "1234",
       spokenSnippet: "number 1234 है",
       status: "requires_review",
       confidence: 0.342,
       criticFailureReason: "Semantic Ambiguity: Insufficient evidence to determine whether '1234' refers to Bank Account Number, Application Reference, or Customer ID.",
-      promptQuestion: "यह नंबर किसका है?",
+      promptQuestionHindi: "यह नंबर किसका है?",
+      promptQuestionEn: "What does this number belong to?",
       options: [
-        { id: "account_no", labelHindi: "🏦 खाता नंबर", labelEn: "Account Number", targetField: "account_number" },
-        { id: "ref_no", labelHindi: "📄 संदर्भ नंबर", labelEn: "Reference Number", targetField: "reference_number" },
-        { id: "cust_id", labelHindi: "🪪 ग्राहक ID", labelEn: "Customer ID", targetField: "customer_id" },
-        { id: "skip", labelHindi: "✕ छोड़ें", labelEn: "Skip / Ignore", targetField: null }
+        { id: "account_no", labelHindi: "🏦 खाता नंबर", labelEn: "🏦 Bank Account Number", targetField: "account_number" },
+        { id: "ref_no", labelHindi: "📄 संदर्भ नंबर", labelEn: "📄 Reference Number", targetField: "reference_number" },
+        { id: "cust_id", labelHindi: "🪪 ग्राहक ID", labelEn: "🪪 Customer ID", targetField: "customer_id" },
+        { id: "skip", labelHindi: "✕ छोड़ें", labelEn: "✕ Skip / Ignore", targetField: null }
       ]
     },
     techLog: {
@@ -139,10 +150,10 @@ export const SCENARIOS: Record<string, Scenario> = {
     speechTranscript: "मेरा नाम सुरेश सिंह है, पिता का नाम हरिलाल है, गांव भगवानपुर है और वार्षिक आय दो लाख रुपये है।",
     speechAudioSimulatedDuration: 5,
     fields: [
-      { id: "name", labelHindi: "नाम", value: "सुरेश सिंह", status: "verified", confidence: 0.995 },
-      { id: "father", labelHindi: "पिता का नाम", value: "हरिलाल सिंह", status: "verified", confidence: 0.990 },
-      { id: "address", labelHindi: "पता / गांव", value: "भगवानपुर, उत्तर प्रदेश", status: "verified", confidence: 0.987 },
-      { id: "income", labelHindi: "वार्षिक आय", value: "₹2,00,000", status: "verified", confidence: 0.992 }
+      { id: "name", labelHindi: "नाम", labelEn: "Full Name", value: "Suresh Singh (सुरेश सिंह)", status: "verified", confidence: 0.995 },
+      { id: "father", labelHindi: "पिता का नाम", labelEn: "Father's Name", value: "Harilal Singh (हरिलाल सिंह)", status: "verified", confidence: 0.990 },
+      { id: "address", labelHindi: "पता / गांव", labelEn: "Village / Address", value: "Bhagwanpur, Uttar Pradesh", status: "verified", confidence: 0.987 },
+      { id: "income", labelHindi: "वार्षिक आय", labelEn: "Annual Income", value: "₹2,00,000", status: "verified", confidence: 0.992 }
     ],
     ambiguousItem: null,
     techLog: {
@@ -160,10 +171,10 @@ export const SCENARIOS: Record<string, Scenario> = {
     speechTranscript: "मेरा नाम सुनीता देवी है, गांव रामपुर है... अरे नहीं, आय पांच लाख नहीं, तीन लाख लिखिये।",
     speechAudioSimulatedDuration: 6,
     fields: [
-      { id: "name", labelHindi: "नाम", value: "सुनीता देवी", status: "verified", confidence: 0.993 },
-      { id: "gender", labelHindi: "लिंग", value: "महिला (Female)", status: "verified", confidence: 0.996 },
-      { id: "address", labelHindi: "पता / गांव", value: "रामपुर, उत्तर प्रदेश", status: "verified", confidence: 0.985 },
-      { id: "income", labelHindi: "वार्षिक आय (संशोधित)", value: "₹3,00,000", status: "verified", confidence: 0.978, source: "Overridden by 'अरे नहीं, तीन लाख लिखिये'" }
+      { id: "name", labelHindi: "नाम", labelEn: "Full Name", value: "Sunita Devi (सुनीता देवी)", status: "verified", confidence: 0.993 },
+      { id: "gender", labelHindi: "लिंग", labelEn: "Gender", value: "Female (महिला)", status: "verified", confidence: 0.996 },
+      { id: "address", labelHindi: "पता / गांव", labelEn: "Village / Address", value: "Rampur, Uttar Pradesh", status: "verified", confidence: 0.985 },
+      { id: "income", labelHindi: "वार्षिक आय (संशोधित)", labelEn: "Annual Income (Corrected)", value: "₹3,00,000", status: "verified", confidence: 0.978, source: "Overridden by 'अरे नहीं, तीन लाख लिखिये'" }
     ],
     ambiguousItem: null,
     techLog: {
@@ -181,24 +192,26 @@ export const SCENARIOS: Record<string, Scenario> = {
     speechTranscript: "मेरा नाम मोहन लाल है, रामपुर से हूं, थोड़ा बहुत कमा लेते हैं खेती से।",
     speechAudioSimulatedDuration: 5,
     fields: [
-      { id: "name", labelHindi: "नाम", value: "मोहन लाल", status: "verified", confidence: 0.991 },
-      { id: "address", labelHindi: "पता / गांव", value: "रामपुर, उत्तर प्रदेश", status: "verified", confidence: 0.980 },
-      { id: "occupation", labelHindi: "व्यवसाय", value: "खेती / किसान (Agriculture)", status: "verified", confidence: 0.965 }
+      { id: "name", labelHindi: "नाम", labelEn: "Full Name", value: "Mohan Lal (मोहन लाल)", status: "verified", confidence: 0.991 },
+      { id: "address", labelHindi: "पता / गांव", labelEn: "Village / Address", value: "Rampur, Uttar Pradesh", status: "verified", confidence: 0.980 },
+      { id: "occupation", labelHindi: "व्यवसाय", labelEn: "Occupation", value: "Agriculture / Farmer", status: "verified", confidence: 0.965 }
     ],
     ambiguousItem: {
       id: "unresolved_income",
-      labelHindi: "वार्षिक आय (Annual Income)",
-      rawNumber: "थोड़ा बहुत",
+      labelHindi: "वार्षिक आय",
+      labelEn: "Annual Income Bracket",
+      rawNumber: "थोड़ा बहुत (Vague)",
       spokenSnippet: "थोड़ा बहुत कमा लेते हैं",
       status: "requires_review",
       confidence: 0.210,
       criticFailureReason: "Qualitative / Non-Numeric Value: 'थोड़ा बहुत' cannot be converted to a legal currency bracket without human declaration.",
-      promptQuestion: "अनुमानित वार्षिक आय वर्ग चुनें:",
+      promptQuestionHindi: "अनुमानित वार्षिक आय वर्ग चुनें:",
+      promptQuestionEn: "Select estimated annual income bracket:",
       options: [
-        { id: "inc_1", labelHindi: "₹1,00,000 से कम", labelEn: "< ₹1 Lakh (BPL)", targetField: "income" },
-        { id: "inc_2", labelHindi: "₹1,00,000 - ₹2,50,000", labelEn: "₹1L - ₹2.5L", targetField: "income" },
-        { id: "inc_3", labelHindi: "₹2,50,000 - ₹5,00,000", labelEn: "₹2.5L - ₹5L", targetField: "income" },
-        { id: "skip", labelHindi: "✕ बाद में भरें", labelEn: "Fill Later", targetField: null }
+        { id: "inc_1", labelHindi: "₹1,00,000 से कम", labelEn: "Under ₹1,00,000 (BPL)", targetField: "income" },
+        { id: "inc_2", labelHindi: "₹1,00,000 - ₹2,50,000", labelEn: "₹1,00,000 - ₹2,50,000", targetField: "income" },
+        { id: "inc_3", labelHindi: "₹2,50,000 - ₹5,00,000", labelEn: "₹2,50,000 - ₹5,00,000", targetField: "income" },
+        { id: "skip", labelHindi: "✕ बाद में भरें", labelEn: "✕ Fill Later", targetField: null }
       ]
     },
     techLog: {
@@ -216,23 +229,25 @@ export const SCENARIOS: Record<string, Scenario> = {
     speechTranscript: "मेरा नाम कालू राम है, गांव रामपुर है और पिन कोड बाइस चौंतीस है।",
     speechAudioSimulatedDuration: 5,
     fields: [
-      { id: "name", labelHindi: "नाम", value: "कालू राम", status: "verified", confidence: 0.990 },
-      { id: "address", labelHindi: "पता / गांव", value: "रामपुर, उत्तर प्रदेश", status: "verified", confidence: 0.982 }
+      { id: "name", labelHindi: "नाम", labelEn: "Full Name", value: "Kalu Ram (कालू राम)", status: "verified", confidence: 0.990 },
+      { id: "address", labelHindi: "पता / गांव", labelEn: "Village / Address", value: "Rampur, Uttar Pradesh", status: "verified", confidence: 0.982 }
     ],
     ambiguousItem: {
       id: "unresolved_pin",
-      labelHindi: "पिन कोड (Postal PIN)",
-      rawNumber: "2234",
+      labelHindi: "पिन कोड",
+      labelEn: "Postal PIN Code",
+      rawNumber: "2234 (4 digits)",
       spokenSnippet: "पिन कोड बाइस चौंतीस (2234)",
       status: "requires_review",
       confidence: 0.150,
       criticFailureReason: "Schema Constraint Violation: Indian Postal PIN requires 6 digits. Spoken input '2234' is only 4 digits.",
-      promptQuestion: "रामपुर का सही 6-अंकीय पिन कोड क्या है?",
+      promptQuestionHindi: "रामपुर का सही 6-अंकीय पिन कोड क्या है?",
+      promptQuestionEn: "Select verified 6-digit PIN code for Rampur:",
       options: [
-        { id: "pin_1", labelHindi: "📮 221001 (वाराणसी)", labelEn: "221001", targetField: "pincode" },
-        { id: "pin_2", labelHindi: "📮 221005 (रामनगर)", labelEn: "221005", targetField: "pincode" },
-        { id: "pin_3", labelHindi: "📮 221311 (राजातालाब)", labelEn: "221311", targetField: "pincode" },
-        { id: "skip", labelHindi: "✕ हाथ से टाइप करें", labelEn: "Manual Entry", targetField: null }
+        { id: "pin_1", labelHindi: "📮 221001 (वाराणसी)", labelEn: "📮 221001 (Varanasi City)", targetField: "pincode" },
+        { id: "pin_2", labelHindi: "📮 221005 (रामनगर)", labelEn: "📮 221005 (Ramnagar)", targetField: "pincode" },
+        { id: "pin_3", labelHindi: "📮 221311 (राजातालाब)", labelEn: "📮 221311 (Rajatalaab)", targetField: "pincode" },
+        { id: "skip", labelHindi: "✕ हाथ से टाइप करें", labelEn: "✕ Manual Type", targetField: null }
       ]
     },
     techLog: {

@@ -1,18 +1,23 @@
 'use client';
 
 import React from 'react';
-import { Mic, ArrowLeft, Building2, UserCheck, ShieldAlert, Sparkles } from 'lucide-react';
+import { Mic, ArrowLeft, Building2, Sparkles } from 'lucide-react';
 import { soundEngine } from '@/utils/sound';
+import { Language, TRANSLATIONS } from '@/data/translations';
 
 interface ServiceStartScreenProps {
+  lang: Language;
   onProceedToVoice: () => void;
   onBack: () => void;
 }
 
 export const ServiceStartScreen: React.FC<ServiceStartScreenProps> = ({
+  lang,
   onProceedToVoice,
   onBack,
 }) => {
+  const t = TRANSLATIONS[lang];
+
   return (
     <div className="animate-fade-in">
       <div style={{ marginBottom: '1.5rem' }}>
@@ -34,7 +39,7 @@ export const ServiceStartScreen: React.FC<ServiceStartScreenProps> = ({
           }}
         >
           <ArrowLeft size={18} />
-          <span>मुख्य पृष्ठ पर वापस जाएं (Back to Home)</span>
+          <span>{t.serviceStart.backToHome}</span>
         </button>
       </div>
 
@@ -46,17 +51,17 @@ export const ServiceStartScreen: React.FC<ServiceStartScreenProps> = ({
                 <Building2 size={26} />
               </div>
               <div>
-                <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800 }}>बैंक खाता आवेदन</h2>
-                <div className="sub-english">Bank Account Application Form</div>
+                <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800 }}>{t.serviceStart.formTitle}</h2>
+                <div className="sub-english">{t.serviceStart.formSub}</div>
               </div>
             </div>
 
             <div style={{ background: '#FFFDF9', border: '1.5px solid var(--color-border)', borderRadius: '16px', padding: '1.75rem', marginBottom: '2rem' }}>
               <h3 style={{ fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--color-text-main)', marginBottom: '0.5rem' }}>
-                किसकी जानकारी भरनी है?
+                {t.serviceStart.whoIsThisFor}
               </h3>
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-secondary)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
-                ग्राहक को कोई फॉर्म पढ़ने या अंग्रेजी जानने की आवश्यकता नहीं है। वे सीधे अपनी सामान्य बोलचाल में नाम, पता, आय बता सकते हैं।
+                {t.serviceStart.instructions}
               </p>
 
               <button
@@ -69,15 +74,15 @@ export const ServiceStartScreen: React.FC<ServiceStartScreenProps> = ({
               >
                 <Mic size={32} />
                 <div className="btn-giant-content">
-                  <span className="btn-giant-text">बोलकर जानकारी भरें</span>
-                  <span className="btn-giant-sub">Start Voice Input (Hindi / Hinglish)</span>
+                  <span className="btn-giant-text">{t.serviceStart.btnStartVoice}</span>
+                  <span className="btn-giant-sub">{t.serviceStart.btnStartVoiceSub}</span>
                 </div>
               </button>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)' }}>
               <Sparkles size={18} color="var(--color-primary)" />
-              <span>ऑपरेटर को फॉर्म फील्ड का क्रम याद रखने की जरूरत नहीं है।</span>
+              <span>{t.serviceStart.operatorHint}</span>
             </div>
           </div>
         </div>
@@ -90,11 +95,18 @@ export const ServiceStartScreen: React.FC<ServiceStartScreenProps> = ({
               alt="Rural Indian villager speaking at desk"
             />
             <div className="context-villager-content">
-              <div className="context-villager-title">ग्राहक संदर्भ (Citizen Context)</div>
+              <div className="context-villager-title">{t.serviceStart.citizenContextTitle}</div>
               <div className="context-villager-sub">
-                &ldquo;ग्राहक को फॉर्म पढ़ने की जरूरत नहीं है। वे बस अपनी बात सहज रूप से कह सकते हैं।&rdquo;
+                &ldquo;{t.serviceStart.citizenContextSub}&rdquo;
               </div>
             </div>
+          </div>
+
+          <div style={{ background: '#FFFDF9', border: '1.5px solid var(--color-border)', borderRadius: '14px', padding: '1rem', fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)' }}>
+            <strong style={{ color: 'var(--color-text-main)', display: 'block', marginBottom: '0.25rem' }}>
+              {t.serviceStart.antiHallucinationTitle}
+            </strong>
+            {t.serviceStart.antiHallucinationDesc}
           </div>
         </div>
       </div>

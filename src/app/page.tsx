@@ -11,11 +11,12 @@ import { FormScreen } from '@/components/FormScreen';
 import { CompletionScreen } from '@/components/CompletionScreen';
 import { TechnicalModal } from '@/components/TechnicalModal';
 import { SCENARIOS, AmbiguityOption } from '@/data/scenarios';
-import { soundEngine } from '@/utils/sound';
+import { Language } from '@/data/translations';
 
 type ScreenType = 'home' | 'service_start' | 'voice' | 'processing' | 'form' | 'completion';
 
 export default function NishchitApp() {
+  const [lang, setLang] = useState<Language>('en'); // Default language is English
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('home');
   const [currentScenarioId, setCurrentScenarioId] = useState<string>('ambiguous_number');
   const [resolvedAmbiguity, setResolvedAmbiguity] = useState<boolean>(false);
@@ -31,7 +32,8 @@ export default function NishchitApp() {
   };
 
   const handleResolveAmbiguity = (option: AmbiguityOption) => {
-    setSelectedOption(option.labelHindi);
+    const label = lang === 'en' ? option.labelEn : option.labelHindi;
+    setSelectedOption(label);
     setResolvedAmbiguity(true);
   };
 
@@ -44,20 +46,23 @@ export default function NishchitApp() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {/* Top Application Header */}
+      {/* Top Application Header with Navbar Language Switcher */}
       <Header
+        lang={lang}
+        onToggleLang={setLang}
         onGoHome={() => setCurrentScreen('home')}
         onOpenTechModal={() => setIsTechModalOpen(true)}
         isTechModalOpen={isTechModalOpen}
       />
 
       {/* Trust Indicator Safety Banner */}
-      <TrustBanner onOpenTechModal={() => setIsTechModalOpen(true)} />
+      <TrustBanner lang={lang} onOpenTechModal={() => setIsTechModalOpen(true)} />
 
       {/* Main Content Area */}
       <main className="main-content">
         {currentScreen === 'home' && (
           <HomeScreen
+            lang={lang}
             onStartVoice={() => setCurrentScreen('service_start')}
             onStartManual={() => setCurrentScreen('service_start')}
             onSelectCategory={() => setCurrentScreen('service_start')}
@@ -66,6 +71,7 @@ export default function NishchitApp() {
 
         {currentScreen === 'service_start' && (
           <ServiceStartScreen
+            lang={lang}
             onProceedToVoice={() => setCurrentScreen('voice')}
             onBack={() => setCurrentScreen('home')}
           />
@@ -73,6 +79,7 @@ export default function NishchitApp() {
 
         {currentScreen === 'voice' && (
           <VoiceScreen
+            lang={lang}
             scenario={scenario}
             onSelectScenario={handleSelectScenario}
             onRecordingComplete={() => setCurrentScreen('processing')}
@@ -82,6 +89,7 @@ export default function NishchitApp() {
 
         {currentScreen === 'processing' && (
           <ProcessingScreen
+            lang={lang}
             scenario={scenario}
             onProcessingComplete={() => setCurrentScreen('form')}
           />
@@ -89,6 +97,7 @@ export default function NishchitApp() {
 
         {currentScreen === 'form' && (
           <FormScreen
+            lang={lang}
             scenario={scenario}
             resolvedAmbiguity={resolvedAmbiguity}
             selectedOption={selectedOption}
@@ -100,8 +109,9 @@ export default function NishchitApp() {
 
         {currentScreen === 'completion' && (
           <CompletionScreen
+            lang={lang}
             scenario={scenario}
-            resolvedField={selectedOption || 'खाता नंबर'}
+            resolvedField={selectedOption || (lang === 'en' ? 'Bank Account Number' : 'खाता नंबर')}
             onNewApplication={handleNewApplication}
           />
         )}

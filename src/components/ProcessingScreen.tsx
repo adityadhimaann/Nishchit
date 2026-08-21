@@ -1,23 +1,26 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Mic, Brain, Search, CheckCircle2, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { Mic, Brain, Search, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { Scenario } from '@/data/scenarios';
 import { soundEngine } from '@/utils/sound';
+import { Language, TRANSLATIONS } from '@/data/translations';
 
 interface ProcessingScreenProps {
+  lang: Language;
   scenario: Scenario;
   onProcessingComplete: () => void;
 }
 
 export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
+  lang,
   scenario,
   onProcessingComplete,
 }) => {
+  const t = TRANSLATIONS[lang];
   const [step, setStep] = useState(1);
 
   useEffect(() => {
-    // Step progression sequence
     const t1 = setTimeout(() => {
       setStep(2);
       soundEngine.playTone('click');
@@ -60,10 +63,10 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
       <div className="processing-panel">
         <div className="processing-header">
           <h2 style={{ fontSize: 'var(--text-3xl)', fontWeight: 800, color: 'var(--color-text-main)', marginBottom: '0.5rem' }}>
-            जानकारी समझ रहे हैं...
+            {t.processing.heading}
           </h2>
           <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-text-secondary)', fontStyle: 'italic', maxWidth: '700px', margin: '0 auto' }}>
-            आपने कहा: &ldquo;{scenario.speechTranscript}&rdquo;
+            {t.processing.youSaid} &ldquo;{scenario.speechTranscript}&rdquo;
           </p>
         </div>
 
@@ -74,8 +77,8 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
               {step >= 1 ? '✓' : <Mic size={20} />}
             </div>
             <div>
-              <div className="step-text-title">🎙 आवाज सुनी और रिकॉर्ड की गई</div>
-              <div className="step-text-sub">Speech recognized in local rural dialect</div>
+              <div className="step-text-title">{t.processing.step1Title}</div>
+              <div className="step-text-sub">{t.processing.step1Sub}</div>
             </div>
           </div>
 
@@ -85,8 +88,8 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
               {step >= 2 ? '✓' : <Brain size={20} />}
             </div>
             <div>
-              <div className="step-text-title">🧠 जरूरी जानकारी निकाली गई</div>
-              <div className="step-text-sub">Identified name, village, income, numbers</div>
+              <div className="step-text-title">{t.processing.step2Title}</div>
+              <div className="step-text-sub">{t.processing.step2Sub}</div>
             </div>
           </div>
 
@@ -96,8 +99,8 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
               {step >= 3 ? '✓' : <Search size={20} />}
             </div>
             <div>
-              <div className="step-text-title">🔎 निष्पक्ष सुरक्षा जांच (Critic Audit)</div>
-              <div className="step-text-sub">Validating against hallucination and ambiguity</div>
+              <div className="step-text-title">{t.processing.step3Title}</div>
+              <div className="step-text-sub">{t.processing.step3Sub}</div>
             </div>
           </div>
 
@@ -107,8 +110,8 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
               {step >= 4 ? '✓' : <CheckCircle2 size={20} />}
             </div>
             <div>
-              <div className="step-text-title">✓ सुरक्षित जानकारी तैयार (Auto-filled)</div>
-              <div className="step-text-sub">{scenario.fields.length} unambiguous fields securely matched</div>
+              <div className="step-text-title">{t.processing.step4Title}</div>
+              <div className="step-text-sub">{scenario.fields.length} {t.processing.step4Sub}</div>
             </div>
           </div>
 
@@ -120,9 +123,9 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
               </div>
               <div>
                 <div className="step-text-title" style={{ color: 'var(--color-warning-text)' }}>
-                  ⚠ एक जानकारी की पुष्टि आपकी जरूरत है
+                  {t.processing.step5WarningTitle}
                 </div>
-                <div className="step-text-sub">Number requires operator clarification (Refusal to guess)</div>
+                <div className="step-text-sub">{t.processing.step5WarningSub}</div>
               </div>
             </div>
           ) : (
@@ -131,8 +134,8 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
                 {step >= 5 ? '✓' : <CheckCircle2 size={20} />}
               </div>
               <div>
-                <div className="step-text-title">✓ सभी जानकारी सुरक्षित रूप से पूरी</div>
-                <div className="step-text-sub">100% safe to proceed</div>
+                <div className="step-text-title">{t.processing.step5SuccessTitle}</div>
+                <div className="step-text-sub">{t.processing.step5SuccessSub}</div>
               </div>
             </div>
           )}

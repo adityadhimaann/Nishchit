@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
-import { Printer, CheckCircle, FileText } from 'lucide-react';
+import { Printer, CheckCircle } from 'lucide-react';
 import { soundEngine } from '@/utils/sound';
+import { Language, TRANSLATIONS } from '@/data/translations';
 
 interface ReceiptModalProps {
+  lang: Language;
   name: string;
   village: string;
   income: string;
@@ -13,14 +15,16 @@ interface ReceiptModalProps {
 }
 
 export const ReceiptModal: React.FC<ReceiptModalProps> = ({
+  lang,
   name,
   village,
   income,
   resolvedField,
   onClose,
 }) => {
+  const t = TRANSLATIONS[lang];
   const receiptId = 'CSC-NISH-849201';
-  const currentDate = new Date().toLocaleDateString('hi-IN', {
+  const currentDate = new Date().toLocaleDateString(lang === 'hi' ? 'hi-IN' : 'en-IN', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -30,37 +34,37 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
     <div className="receipt-card animate-fade-in">
       <div className="receipt-header">
         <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-primary)', letterSpacing: '1px' }}>
-          डिजिटल सेवा केंद्र • COMMON SERVICE CENTRE
+          {t.receipt.headerBadge}
         </div>
-        <div className="receipt-title">बैंक खाता आवेदन - पावती रसीद (Acknowledgment Slip)</div>
+        <div className="receipt-title">{t.receipt.title}</div>
         <div style={{ fontSize: '0.75rem', color: '#64748B' }}>
-          निश्चित (Nishchit AI) द्वारा सुरक्षित रूप से सत्यापित एवं जनरेट किया गया
+          {t.receipt.sub}
         </div>
       </div>
 
       <div className="receipt-grid">
         <div>
-          <span style={{ color: '#64748B', display: 'block', fontSize: '0.75rem' }}>आवेदक का नाम:</span>
+          <span style={{ color: '#64748B', display: 'block', fontSize: '0.75rem' }}>{t.receipt.applicantName}</span>
           <strong>{name}</strong>
         </div>
         <div>
-          <span style={{ color: '#64748B', display: 'block', fontSize: '0.75rem' }}>आवेदन / रसीद क्र.:</span>
+          <span style={{ color: '#64748B', display: 'block', fontSize: '0.75rem' }}>{t.receipt.receiptNo}</span>
           <strong style={{ fontFamily: 'monospace' }}>{receiptId}</strong>
         </div>
         <div>
-          <span style={{ color: '#64748B', display: 'block', fontSize: '0.75rem' }}>ग्राम / पता:</span>
+          <span style={{ color: '#64748B', display: 'block', fontSize: '0.75rem' }}>{t.receipt.villageAddress}</span>
           <strong>{village}</strong>
         </div>
         <div>
-          <span style={{ color: '#64748B', display: 'block', fontSize: '0.75rem' }}>घोषित वार्षिक आय:</span>
+          <span style={{ color: '#64748B', display: 'block', fontSize: '0.75rem' }}>{t.receipt.annualIncome}</span>
           <strong>{income}</strong>
         </div>
         <div>
-          <span style={{ color: '#64748B', display: 'block', fontSize: '0.75rem' }}>सत्यापित खाता / संदर्भ:</span>
+          <span style={{ color: '#64748B', display: 'block', fontSize: '0.75rem' }}>{t.receipt.verifiedRef}</span>
           <strong style={{ color: 'var(--color-success)' }}>1234 ({resolvedField})</strong>
         </div>
         <div>
-          <span style={{ color: '#64748B', display: 'block', fontSize: '0.75rem' }}>तारीख व समय:</span>
+          <span style={{ color: '#64748B', display: 'block', fontSize: '0.75rem' }}>{t.receipt.dateTime}</span>
           <strong>{currentDate}</strong>
         </div>
       </div>
@@ -68,13 +72,13 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
       <div style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', padding: '0.75rem', borderRadius: '8px', marginBottom: '1rem', fontSize: '0.8rem', color: '#334155' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontWeight: 700, color: 'var(--color-success)', marginBottom: '0.2rem' }}>
           <CheckCircle size={15} />
-          <span>सुरक्षा प्रमाणीकरण: 100% सटीक (Dual AI Critic Audited)</span>
+          <span>{t.receipt.auditTitle}</span>
         </div>
-        <div>ऑपरेटर ने अस्पष्ट संख्या का सत्यापन मैन्युअल पुष्टि द्वारा किया है।</div>
+        <div>{t.receipt.auditDesc}</div>
       </div>
 
       <div className="receipt-footer">
-        <div>ऑपरेटर हस्ताक्षर: _________________</div>
+        <div>{t.receipt.operatorSignature}</div>
         <button
           onClick={() => {
             soundEngine.playTone('click');
@@ -95,7 +99,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
           }}
         >
           <Printer size={14} />
-          <span>प्रिंट निकालें (Print)</span>
+          <span>{t.receipt.btnPrint}</span>
         </button>
       </div>
     </div>
