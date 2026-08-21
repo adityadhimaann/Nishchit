@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Printer, PlusCircle, FileText } from 'lucide-react';
+import { Printer, PlusCircle, FileText, CheckCircle2, ShieldCheck, Sparkles } from 'lucide-react';
 import { Scenario } from '@/data/scenarios';
 import { ReceiptModal } from './ReceiptModal';
 import { soundEngine } from '@/utils/sound';
@@ -38,19 +38,19 @@ export const CompletionScreen: React.FC<CompletionScreenProps> = ({
           <div>
             <div className="completion-badge-circle">✓</div>
             <h2 className="completion-title hindi-lead">{t.completion.title}</h2>
-            <div className="sub-english" style={{ fontSize: 'var(--text-base)', marginBottom: '1rem' }}>
+            <div className="sub-english" style={{ fontSize: 'var(--text-base)', marginBottom: '1.25rem', color: '#CBD5E1' }}>
               {t.completion.sub}
             </div>
 
             <div className="completion-stats-list">
-              <div className="completion-stat-chip" style={{ background: '#EAF7EF', borderColor: '#A3D8B4', color: '#134B26' }}>
+              <div className="completion-stat-chip" style={{ background: 'rgba(16, 185, 129, 0.15)', borderColor: 'rgba(16, 185, 129, 0.4)', color: 'var(--neon-emerald)' }}>
                 ✓ {totalFields} / {totalFields} {t.completion.allVerifiedTag}
               </div>
               <div className="completion-stat-chip">
                 🤖 {aiAutoFilled} {t.completion.aiFilledTag}
               </div>
               {operatorConfirmed > 0 && (
-                <div className="completion-stat-chip" style={{ background: '#FFF8E6', borderColor: '#FFD27D', color: '#7A3D00' }}>
+                <div className="completion-stat-chip" style={{ background: 'rgba(245, 158, 11, 0.15)', borderColor: 'rgba(245, 158, 11, 0.4)', color: '#FDE68A' }}>
                   👤 {operatorConfirmed} {t.completion.operatorConfirmedTag}
                 </div>
               )}
@@ -91,7 +91,7 @@ export const CompletionScreen: React.FC<CompletionScreenProps> = ({
 
           <button
             className="btn-form-action-secondary"
-            style={{ marginLeft: 'auto', background: '#F1ECE3' }}
+            style={{ marginLeft: 'auto', background: 'rgba(30, 41, 59, 0.9)' }}
             onClick={() => {
               soundEngine.playTone('click');
               onNewApplication();

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Cpu, Languages } from 'lucide-react';
+import { Cpu, Radio } from 'lucide-react';
 import { soundEngine } from '@/utils/sound';
 import { Language, TRANSLATIONS } from '@/data/translations';
 
@@ -36,12 +36,8 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="brand-logo-badge">नि</div>
           <div className="brand-text">
             <div className="brand-title">
-              <span className="brand-name-en" style={{ fontSize: '1.45rem', fontWeight: 800, color: 'var(--color-primary)' }}>
-                Nishchit
-              </span>
-              <span className="brand-name-hi" style={{ fontSize: '1.15rem', color: 'var(--color-text-secondary)' }}>
-                निश्चित
-              </span>
+              <span className="brand-name-en">Nishchit</span>
+              <span className="brand-name-hi">निश्चित</span>
             </div>
             <div className="brand-tagline">
               <span>{t.brand.tagline}</span>
@@ -51,65 +47,35 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
 
         <div className="header-actions">
-          {/* Language Switcher in Navbar */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              background: 'var(--color-surface-subtle)',
-              border: '1.5px solid var(--color-border)',
-              borderRadius: 'var(--radius-full)',
-              padding: '2px',
-              gap: '2px',
-            }}
-          >
+          {/* Futuristic Language Toggle Capsule */}
+          <div className="lang-switcher-pill">
             <button
+              className={`lang-btn ${lang === 'en' ? 'active' : ''}`}
               onClick={() => {
                 soundEngine.playTone('click');
                 onToggleLang('en');
-              }}
-              style={{
-                border: 'none',
-                background: lang === 'en' ? 'var(--color-primary)' : 'transparent',
-                color: lang === 'en' ? '#fff' : 'var(--color-text-main)',
-                padding: '4px 12px',
-                borderRadius: 'var(--radius-full)',
-                fontSize: 'var(--text-xs)',
-                fontWeight: 700,
-                cursor: 'pointer',
-                transition: 'var(--transition-fast)',
               }}
             >
               English
             </button>
             <button
+              className={`lang-btn ${lang === 'hi' ? 'active' : ''}`}
               onClick={() => {
                 soundEngine.playTone('click');
                 onToggleLang('hi');
-              }}
-              style={{
-                border: 'none',
-                background: lang === 'hi' ? 'var(--color-primary)' : 'transparent',
-                color: lang === 'hi' ? '#fff' : 'var(--color-text-main)',
-                padding: '4px 12px',
-                borderRadius: 'var(--radius-full)',
-                fontSize: 'var(--text-xs)',
-                fontWeight: 700,
-                cursor: 'pointer',
-                transition: 'var(--transition-fast)',
               }}
             >
               हिन्दी
             </button>
           </div>
 
-          {/* Offline badge */}
+          {/* Futuristic Edge Offline Badge */}
           <div className="status-badge-offline">
             <span className="status-dot" />
             <span>{t.brand.offlineStatus}</span>
           </div>
 
-          {/* System view */}
+          {/* System Telemetry Mode */}
           <button
             className={`btn-tech-mode ${isTechModalOpen ? 'active' : ''}`}
             onClick={() => {

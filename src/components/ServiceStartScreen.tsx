@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Mic, ArrowLeft, Building2, Sparkles } from 'lucide-react';
+import { Mic, ArrowLeft, Building2, Sparkles, ShieldCheck, Zap } from 'lucide-react';
 import { soundEngine } from '@/utils/sound';
 import { Language, TRANSLATIONS } from '@/data/translations';
 
@@ -20,7 +20,7 @@ export const ServiceStartScreen: React.FC<ServiceStartScreenProps> = ({
 
   return (
     <div className="animate-fade-in">
-      <div style={{ marginBottom: '1.5rem' }}>
+      <div style={{ marginBottom: '1.75rem' }}>
         <button
           onClick={() => {
             soundEngine.playTone('click');
@@ -29,13 +29,13 @@ export const ServiceStartScreen: React.FC<ServiceStartScreenProps> = ({
           style={{
             background: 'none',
             border: 'none',
-            color: 'var(--color-primary)',
+            color: 'var(--neon-cyan)',
             fontSize: 'var(--text-sm)',
-            fontWeight: 700,
+            fontWeight: 800,
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.4rem',
+            gap: '0.5rem',
           }}
         >
           <ArrowLeft size={18} />
@@ -46,21 +46,25 @@ export const ServiceStartScreen: React.FC<ServiceStartScreenProps> = ({
       <div className="workflow-layout">
         <div className="workflow-main">
           <div className="form-section-card">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '1.75rem' }}>
               <div className="form-badge-icon">
-                <Building2 size={26} />
+                <Building2 size={30} />
               </div>
               <div>
-                <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800 }}>{t.serviceStart.formTitle}</h2>
+                <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 900, color: '#FFFFFF' }}>{t.serviceStart.formTitle}</h2>
                 <div className="sub-english">{t.serviceStart.formSub}</div>
               </div>
             </div>
 
-            <div style={{ background: '#FFFDF9', border: '1.5px solid var(--color-border)', borderRadius: '16px', padding: '1.75rem', marginBottom: '2rem' }}>
-              <h3 style={{ fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--color-text-main)', marginBottom: '0.5rem' }}>
+            <div style={{ background: 'rgba(15, 23, 42, 0.75)', border: '1px solid var(--border-glass-bright)', borderRadius: '20px', padding: '2rem', marginBottom: '2rem', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--neon-orange)', fontWeight: 800, fontSize: '0.8rem', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>
+                <Zap size={14} />
+                <span>ACTIVE INTELLIGENCE PROTOCOL</span>
+              </div>
+              <h3 style={{ fontSize: 'var(--text-xl)', fontWeight: 900, color: '#FFFFFF', marginBottom: '0.75rem' }}>
                 {t.serviceStart.whoIsThisFor}
               </h3>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-secondary)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+              <p style={{ fontSize: 'var(--text-base)', color: '#CBD5E1', lineHeight: 1.7, marginBottom: '1.75rem' }}>
                 {t.serviceStart.instructions}
               </p>
 
@@ -72,7 +76,7 @@ export const ServiceStartScreen: React.FC<ServiceStartScreenProps> = ({
                   onProceedToVoice();
                 }}
               >
-                <Mic size={32} />
+                <Mic size={36} />
                 <div className="btn-giant-content">
                   <span className="btn-giant-text">{t.serviceStart.btnStartVoice}</span>
                   <span className="btn-giant-sub">{t.serviceStart.btnStartVoiceSub}</span>
@@ -80,8 +84,8 @@ export const ServiceStartScreen: React.FC<ServiceStartScreenProps> = ({
               </button>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)' }}>
-              <Sparkles size={18} color="var(--color-primary)" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-medium)', fontSize: 'var(--text-sm)' }}>
+              <Sparkles size={18} color="var(--neon-cyan)" />
               <span>{t.serviceStart.operatorHint}</span>
             </div>
           </div>
@@ -102,8 +106,8 @@ export const ServiceStartScreen: React.FC<ServiceStartScreenProps> = ({
             </div>
           </div>
 
-          <div style={{ background: '#FFFDF9', border: '1.5px solid var(--color-border)', borderRadius: '14px', padding: '1rem', fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)' }}>
-            <strong style={{ color: 'var(--color-text-main)', display: 'block', marginBottom: '0.25rem' }}>
+          <div style={{ background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(0, 240, 255, 0.3)', borderRadius: '16px', padding: '1.25rem', fontSize: 'var(--text-xs)', color: 'var(--text-medium)', boxShadow: '0 0 20px rgba(0, 240, 255, 0.1)' }}>
+            <strong style={{ color: 'var(--neon-cyan)', display: 'block', marginBottom: '0.35rem', fontSize: '0.85rem' }}>
               {t.serviceStart.antiHallucinationTitle}
             </strong>
             {t.serviceStart.antiHallucinationDesc}

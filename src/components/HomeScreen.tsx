@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Mic, Edit3, Building2, FileCheck2, ShieldCheck, Sprout, CheckCircle2, Clock, PauseCircle, Layers } from 'lucide-react';
+import { Mic, Edit3, Building2, FileCheck2, ShieldCheck, Sprout, CheckCircle2, Clock, PauseCircle, Layers, ArrowUpRight, Sparkles } from 'lucide-react';
 import { soundEngine } from '@/utils/sound';
 import { Language, TRANSLATIONS } from '@/data/translations';
 
@@ -22,14 +22,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
   return (
     <div className="animate-fade-in">
-      {/* Operator Dashboard Today's Status */}
+      {/* Operator HUD Today's Status */}
       <div className="operator-stats-card">
         <div className="stats-title-group">
           <div className="stats-icon-badge">
             <Layers size={22} />
           </div>
           <div>
-            <div style={{ fontSize: 'var(--text-lg)', fontWeight: 800 }}>{t.home.dailyWorkTitle}</div>
+            <div style={{ fontSize: 'var(--text-lg)', fontWeight: 800, color: '#FFFFFF' }}>{t.home.dailyWorkTitle}</div>
             <div className="sub-english">{t.home.dailyWorkSub}</div>
           </div>
         </div>
@@ -40,28 +40,32 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <span>{t.home.totalApps}</span>
           </div>
           <div className="stat-pill success">
-            <CheckCircle2 size={18} color="var(--color-success)" />
+            <CheckCircle2 size={18} color="var(--neon-emerald)" />
             <span className="stat-count">8</span>
             <span>{t.home.completed}</span>
           </div>
           <div className="stat-pill warning">
-            <Clock size={18} color="var(--color-warning)" />
+            <Clock size={18} color="var(--neon-amber)" />
             <span className="stat-count">3</span>
             <span>{t.home.pendingReview}</span>
           </div>
           <div className="stat-pill paused">
-            <PauseCircle size={18} color="var(--color-text-muted)" />
+            <PauseCircle size={18} color="var(--text-muted)" />
             <span className="stat-count">1</span>
             <span>{t.home.paused}</span>
           </div>
         </div>
       </div>
 
-      {/* Hero Section */}
+      {/* Futuristic Hero Section */}
       <div className="hero-grid">
-        {/* Left Side: Welcoming Rural UX */}
+        {/* Left Side: Welcoming Futuristic Voice Terminal */}
         <div className="hero-card-left">
           <div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(0, 240, 255, 0.1)', border: '1px solid rgba(0, 240, 255, 0.3)', padding: '4px 12px', borderRadius: '9999px', fontSize: '0.75rem', fontWeight: 800, color: 'var(--neon-cyan)', marginBottom: '1.25rem', letterSpacing: '0.05em' }}>
+              <Sparkles size={13} />
+              <span>NEXT-GEN CSC OPERATOR ASSISTANT</span>
+            </div>
             <h1 className="hero-heading hindi-lead">{t.home.heroHeading}</h1>
             <p className="hero-subtitle">
               {t.home.heroSub}
@@ -77,7 +81,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 onStartVoice();
               }}
             >
-              <Mic size={36} />
+              <Mic size={38} />
               <div className="btn-giant-content">
                 <span className="btn-giant-text">{t.home.btnStartVoice}</span>
                 <span className="btn-giant-sub">{t.home.btnStartVoiceSub}</span>
@@ -97,7 +101,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </div>
         </div>
 
-        {/* Right Side: Authentic Rural CSC Photo */}
+        {/* Right Side: Authentic Rural CSC Photo with Cyber Holographic Frame */}
         <div className="hero-card-right">
           <img
             src="/images/csc_counter_hero.jpg"
@@ -136,7 +140,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           >
             <div className="active-demo-pill">{t.home.bankActiveDemo}</div>
             <div className="service-tile-icon">
-              <Building2 size={30} />
+              <Building2 size={32} />
             </div>
             <div>
               <div className="service-tile-title">{t.home.bankTileTitle}</div>
@@ -144,6 +148,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
             <div className="service-tile-desc">
               {t.home.bankTileDesc}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--neon-orange)', fontSize: '0.85rem', fontWeight: 800, marginTop: 'auto' }}>
+              <span>Launch Workflow</span>
+              <ArrowUpRight size={16} />
             </div>
           </div>
 
@@ -156,7 +164,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             }}
           >
             <div className="service-tile-icon">
-              <FileCheck2 size={30} />
+              <FileCheck2 size={32} />
             </div>
             <div>
               <div className="service-tile-title">{t.home.govTileTitle}</div>
@@ -164,6 +172,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
             <div className="service-tile-desc">
               {t.home.govTileDesc}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--text-medium)', fontSize: '0.85rem', fontWeight: 700, marginTop: 'auto' }}>
+              <span>View Schemes</span>
+              <ArrowUpRight size={16} />
             </div>
           </div>
 
@@ -176,7 +188,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             }}
           >
             <div className="service-tile-icon">
-              <ShieldCheck size={30} />
+              <ShieldCheck size={32} />
             </div>
             <div>
               <div className="service-tile-title">{t.home.pensionTileTitle}</div>
@@ -184,6 +196,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
             <div className="service-tile-desc">
               {t.home.pensionTileDesc}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--text-medium)', fontSize: '0.85rem', fontWeight: 700, marginTop: 'auto' }}>
+              <span>Check Eligibility</span>
+              <ArrowUpRight size={16} />
             </div>
           </div>
 
@@ -196,7 +212,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             }}
           >
             <div className="service-tile-icon">
-              <Sprout size={30} />
+              <Sprout size={32} />
             </div>
             <div>
               <div className="service-tile-title">{t.home.farmerTileTitle}</div>
@@ -204,6 +220,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
             <div className="service-tile-desc">
               {t.home.farmerTileDesc}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--text-medium)', fontSize: '0.85rem', fontWeight: 700, marginTop: 'auto' }}>
+              <span>Farmer Portal</span>
+              <ArrowUpRight size={16} />
             </div>
           </div>
         </div>

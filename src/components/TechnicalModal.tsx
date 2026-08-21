@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { X, Cpu, CheckCircle2, AlertTriangle, ShieldCheck, Database, ArrowRight } from 'lucide-react';
+import { X, Cpu, CheckCircle2, AlertTriangle, ShieldCheck, Database, ArrowRight, Activity, Terminal } from 'lucide-react';
 import { Scenario } from '@/data/scenarios';
 
 interface TechnicalModalProps {
@@ -26,78 +26,79 @@ export const TechnicalModal: React.FC<TechnicalModalProps> = ({
       <div className="tech-modal-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="tech-modal-header">
           <div className="tech-modal-title">
-            <Cpu size={22} />
-            <span>Nishchit System Architecture & Critic Audit (Judges View)</span>
+            <Cpu size={24} color="var(--neon-cyan)" />
+            <span>Nishchit System Architecture &amp; Critic Audit (Judges View)</span>
           </div>
           <button
             onClick={onClose}
             style={{
               background: 'none',
               border: 'none',
-              color: '#94A3B8',
+              color: 'var(--text-medium)',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
             }}
           >
-            <X size={22} />
+            <X size={24} />
           </button>
         </div>
 
         <div className="tech-modal-body">
           {/* Visual Pipeline Graph */}
           <div className="tech-diagram-box">
-            <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#94A3B8', marginBottom: '0.75rem' }}>
-              REAL-TIME DUAL-AGENT SAFETY PIPELINE
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', fontWeight: 800, color: 'var(--neon-cyan)', marginBottom: '0.85rem', letterSpacing: '0.05em' }}>
+              <Activity size={15} />
+              <span>REAL-TIME DUAL-AGENT SAFETY PIPELINE</span>
             </div>
             <div className="pipeline-nodes-row">
               <div className="pipeline-node">🎙 Speech Input (Hindi ASR)</div>
-              <ArrowRight size={16} color="#64748B" />
+              <ArrowRight size={16} color="var(--neon-cyan)" />
               <div className="pipeline-node">🧠 Extractor Agent (Slot Filling)</div>
-              <ArrowRight size={16} color="#64748B" />
-              <div className="pipeline-node critic">🔎 Independent Critic (Hallucination Guard)</div>
-              <ArrowRight size={16} color="#64748B" />
-              <div className="pipeline-node router">🛡 Safety Router & Escalation</div>
+              <ArrowRight size={16} color="var(--neon-cyan)" />
+              <div className="pipeline-node critic">🔎 Independent Critic (Anti-Hallucination)</div>
+              <ArrowRight size={16} color="var(--neon-amber)" />
+              <div className="pipeline-node router">🛡 Safety Router &amp; Escalation</div>
             </div>
           </div>
 
           {/* Critic Rationale */}
-          <div style={{ background: '#1E293B', border: '1px solid #334155', borderRadius: '12px', padding: '1.25rem' }}>
-            <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#F59E0B', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <ShieldCheck size={18} />
+          <div style={{ background: 'rgba(18, 24, 38, 0.85)', border: '1px solid rgba(245, 158, 11, 0.4)', borderRadius: '14px', padding: '1.5rem', boxShadow: '0 0 25px rgba(245, 158, 11, 0.15)' }}>
+            <div style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--neon-amber)', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <ShieldCheck size={20} />
               <span>Independent Critic Decision: {scenario.techLog.criticDecision}</span>
             </div>
-            <p style={{ fontSize: '0.9rem', color: '#CBD5E1', lineHeight: 1.5, marginBottom: '0.75rem' }}>
+            <p style={{ fontSize: '0.92rem', color: '#E2E8F0', lineHeight: 1.6, marginBottom: '0.85rem' }}>
               {scenario.techLog.criticRationale}
             </p>
-            <div style={{ fontSize: '0.85rem', color: '#94A3B8' }}>
-              <strong>Execution Target:</strong> <code style={{ color: '#38BDF8', background: '#0F172A', padding: '2px 6px', borderRadius: '4px' }}>{scenario.techLog.finalAction}</code>
+            <div style={{ fontSize: '0.85rem', color: 'var(--text-medium)' }}>
+              <strong>Execution Target:</strong> <code style={{ color: 'var(--neon-cyan)', background: '#05070C', padding: '3px 8px', borderRadius: '6px', border: '1px solid var(--border-glass)' }}>{scenario.techLog.finalAction}</code>
             </div>
           </div>
 
           {/* Confidence Breakdown Matrix */}
           <div>
-            <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#94A3B8', marginBottom: '0.75rem' }}>
+            <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--neon-cyan)', marginBottom: '0.85rem', letterSpacing: '0.05em' }}>
               SLOT-LEVEL CONFIDENCE MATRIX (THRESHOLD: 0.85)
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.75rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '0.85rem' }}>
               {scenario.fields.map((f) => {
                 const pct = Math.round(f.confidence * 100);
                 return (
                   <div
                     key={f.id}
                     style={{
-                      background: '#1E293B',
-                      border: '1px solid #334155',
-                      padding: '0.6rem 0.9rem',
-                      borderRadius: '8px',
+                      background: 'rgba(15, 23, 42, 0.8)',
+                      border: '1px solid var(--border-glass-bright)',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '10px',
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
                     }}
                   >
-                    <span style={{ fontSize: '0.85rem', color: '#E2E8F0' }}>{f.labelHindi}</span>
-                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#34D399', fontFamily: 'monospace' }}>
+                    <span style={{ fontSize: '0.85rem', color: '#F1F5F9' }}>{f.labelEn}</span>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--neon-emerald)', fontFamily: 'var(--font-family-mono)' }}>
                       {pct}% ✓ SAFE
                     </span>
                   </div>
@@ -107,29 +108,30 @@ export const TechnicalModal: React.FC<TechnicalModalProps> = ({
               {scenario.ambiguousItem && (
                 <div
                   style={{
-                    background: resolvedAmbiguity ? '#14532D' : '#451A03',
-                    border: `1px solid ${resolvedAmbiguity ? '#22C55E' : '#F59E0B'}`,
-                    padding: '0.6rem 0.9rem',
-                    borderRadius: '8px',
+                    background: resolvedAmbiguity ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                    border: `1px solid ${resolvedAmbiguity ? 'var(--neon-emerald)' : 'var(--neon-amber)'}`,
+                    padding: '0.75rem 1rem',
+                    borderRadius: '10px',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    boxShadow: resolvedAmbiguity ? '0 0 15px var(--neon-emerald-glow)' : '0 0 15px var(--neon-amber-glow)',
                   }}
                 >
-                  <span style={{ fontSize: '0.85rem', color: '#FEF3C7' }}>
-                    {scenario.ambiguousItem.labelHindi} (&quot;{scenario.ambiguousItem.rawNumber}&quot;)
+                  <span style={{ fontSize: '0.85rem', color: '#FEF3C7', fontWeight: 700 }}>
+                    {scenario.ambiguousItem.labelEn} (&quot;{scenario.ambiguousItem.rawNumber}&quot;)
                   </span>
                   <span
                     style={{
                       fontSize: '0.8rem',
-                      fontWeight: 700,
-                      color: resolvedAmbiguity ? '#86EFAC' : '#FCA5A5',
-                      fontFamily: 'monospace',
+                      fontWeight: 800,
+                      color: resolvedAmbiguity ? 'var(--neon-emerald)' : '#F87171',
+                      fontFamily: 'var(--font-family-mono)',
                     }}
                   >
                     {resolvedAmbiguity
                       ? `RESOLVED BY HUMAN (${selectedOption}) ✓`
-                      : `${Math.round(scenario.ambiguousItem.confidence * 100)}% ⚠ REFUSAL TRIGGERED`}
+                      : `${Math.round(scenario.ambiguousItem.confidence * 100)}% ⚠ REFUSAL`}
                   </span>
                 </div>
               )}
@@ -138,28 +140,30 @@ export const TechnicalModal: React.FC<TechnicalModalProps> = ({
 
           {/* Raw Telemetry JSON */}
           <div>
-            <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#94A3B8', marginBottom: '0.5rem' }}>
-              RAW TELEMETRY PAYLOAD
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem', fontWeight: 800, color: 'var(--neon-cyan)', marginBottom: '0.6rem' }}>
+              <Terminal size={16} />
+              <span>RAW TELEMETRY PAYLOAD</span>
             </div>
             <pre className="tech-code-box">
               {JSON.stringify(
                 {
                   scenario_id: scenario.id,
                   audio_stream: {
-                    language: 'hi-IN',
-                    mode: 'offline_edge_whisper',
+                    language: 'hi-IN / en-IN',
+                    mode: 'offline_edge_whisper_quantum',
                     transcript: scenario.speechTranscript,
                   },
                   critic_audit: scenario.techLog,
                   extracted_fields: scenario.fields.map((f) => ({
-                    field: f.labelHindi,
+                    field_en: f.labelEn,
+                    field_hi: f.labelHindi,
                     value: f.value,
                     confidence: f.confidence,
                     critic_status: f.criticCheck || 'PASSED',
                   })),
                   ambiguity_state: scenario.ambiguousItem
                     ? {
-                        field_name: scenario.ambiguousItem.labelHindi,
+                        field_name: scenario.ambiguousItem.labelEn,
                         raw_token: scenario.ambiguousItem.rawNumber,
                         confidence_score: scenario.ambiguousItem.confidence,
                         confidence_threshold: 0.85,

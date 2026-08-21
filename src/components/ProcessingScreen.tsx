@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Mic, Brain, Search, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Mic, Brain, Search, CheckCircle2, AlertTriangle, ShieldCheck, Activity } from 'lucide-react';
 import { Scenario } from '@/data/scenarios';
 import { soundEngine } from '@/utils/sound';
 import { Language, TRANSLATIONS } from '@/data/translations';
@@ -62,10 +62,14 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
     <div className="animate-fade-in">
       <div className="processing-panel">
         <div className="processing-header">
-          <h2 style={{ fontSize: 'var(--text-3xl)', fontWeight: 800, color: 'var(--color-text-main)', marginBottom: '0.5rem' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--neon-cyan)', fontSize: '0.8rem', fontWeight: 800, letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+            <Activity size={15} />
+            <span>REAL-TIME MULTI-AGENT PIPELINE EXECUTION</span>
+          </div>
+          <h2 style={{ fontSize: 'var(--text-3xl)', fontWeight: 900, color: '#FFFFFF', marginBottom: '0.75rem' }}>
             {t.processing.heading}
           </h2>
-          <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-text-secondary)', fontStyle: 'italic', maxWidth: '700px', margin: '0 auto' }}>
+          <p style={{ fontSize: 'var(--text-lg)', color: '#CBD5E1', fontStyle: 'italic', maxWidth: '720px', margin: '0 auto', background: 'rgba(15, 23, 42, 0.7)', padding: '0.75rem 1.5rem', borderRadius: '12px', border: '1px solid var(--border-glass)' }}>
             {t.processing.youSaid} &ldquo;{scenario.speechTranscript}&rdquo;
           </p>
         </div>
@@ -74,7 +78,7 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
           {/* Step 1: Voice Recorded */}
           <div className={`processing-step-card ${step >= 1 ? 'completed' : ''}`}>
             <div className="step-icon-circle">
-              {step >= 1 ? '✓' : <Mic size={20} />}
+              {step >= 1 ? '✓' : <Mic size={22} />}
             </div>
             <div>
               <div className="step-text-title">{t.processing.step1Title}</div>
@@ -85,7 +89,7 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
           {/* Step 2: Information Extracted */}
           <div className={`processing-step-card ${step >= 2 ? 'completed' : ''}`}>
             <div className="step-icon-circle">
-              {step >= 2 ? '✓' : <Brain size={20} />}
+              {step >= 2 ? '✓' : <Brain size={22} />}
             </div>
             <div>
               <div className="step-text-title">{t.processing.step2Title}</div>
@@ -96,7 +100,7 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
           {/* Step 3: Independent Critic Audit */}
           <div className={`processing-step-card ${step >= 3 ? 'completed' : ''}`}>
             <div className="step-icon-circle">
-              {step >= 3 ? '✓' : <Search size={20} />}
+              {step >= 3 ? '✓' : <Search size={22} />}
             </div>
             <div>
               <div className="step-text-title">{t.processing.step3Title}</div>
@@ -107,7 +111,7 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
           {/* Step 4: Safe fields verified */}
           <div className={`processing-step-card ${step >= 4 ? 'completed' : ''}`}>
             <div className="step-icon-circle">
-              {step >= 4 ? '✓' : <CheckCircle2 size={20} />}
+              {step >= 4 ? '✓' : <CheckCircle2 size={22} />}
             </div>
             <div>
               <div className="step-text-title">{t.processing.step4Title}</div>
@@ -119,10 +123,10 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
           {scenario.ambiguousItem ? (
             <div className={`processing-step-card ${step >= 5 ? 'warning' : ''}`}>
               <div className="step-icon-circle">
-                {step >= 5 ? '⚠' : <AlertTriangle size={20} />}
+                {step >= 5 ? '⚠' : <AlertTriangle size={22} />}
               </div>
               <div>
-                <div className="step-text-title" style={{ color: 'var(--color-warning-text)' }}>
+                <div className="step-text-title" style={{ color: '#FDE68A' }}>
                   {t.processing.step5WarningTitle}
                 </div>
                 <div className="step-text-sub">{t.processing.step5WarningSub}</div>
@@ -131,7 +135,7 @@ export const ProcessingScreen: React.FC<ProcessingScreenProps> = ({
           ) : (
             <div className={`processing-step-card ${step >= 5 ? 'completed' : ''}`}>
               <div className="step-icon-circle">
-                {step >= 5 ? '✓' : <CheckCircle2 size={20} />}
+                {step >= 5 ? '✓' : <CheckCircle2 size={22} />}
               </div>
               <div>
                 <div className="step-text-title">{t.processing.step5SuccessTitle}</div>
